@@ -12,7 +12,8 @@ A simple and elegant ToDo application built with Flutter, featuring support for 
 
 ## Screenshots
 
-![Light Mode](lib/assets/images/demo_light.jpg) ![Dark Mode](lib/assets/images/demo_dark.jpg)
+![Light Mode](lib/assets/images/demo_light.jpg) 
+![Dark Mode](lib/assets/images/dark_demo.jpg)
 
 ## Installation
 
