@@ -5,19 +5,23 @@ import '../model/todo.dart';
 import '../widgets/todo_item.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key});
+  final VoidCallback toggleTheme;
+
+  Home({required this.toggleTheme, super.key});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
+bool iconBool = false;
+
+IconData iconLight = Icons.wb_sunny;
+IconData iconDark = Icons.nights_stay;
+
 class _HomeState extends State<Home> {
-  // Access the todo items from todo_tiems
   final todosList = ToDo.todoList();
-  // to capture the typing
   final _todoController = TextEditingController();
 
-  // search list
   List<ToDo> _foundToDo = [];
   @override
   void initState() {
@@ -27,52 +31,63 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: tdBGColor,
-      appBar: _appBar(),
-      body: _body(),
+      backgroundColor: isDarkMode ? Colors.black : tdBGColor,
+      appBar: _appBar(isDarkMode),
+      body: _body(isDarkMode),
     );
   }
 
-  AppBar _appBar() {
+  AppBar _appBar(bool isDarkMode) {
     return AppBar(
-      backgroundColor: tdBGColor,
+      backgroundColor: isDarkMode ? Colors.black : tdBGColor,
       elevation: 0.0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.menu, color: tdBlack, size: 30),
-          // insert pfp
           Container(
+            margin: EdgeInsets.only(left: 5.0, top: 7),
             height: 40.0,
             width: 40.0,
-            // circular pfp
             child: ClipOval(
               child: Image.asset('lib/assets/images/vishnu.png'),
             ),
           ),
         ],
       ),
+      actions: [
+        Container(
+          margin: EdgeInsets.only(right: 10),
+          child: IconButton(
+            onPressed: () {
+              widget.toggleTheme();
+              setState(() {
+                iconBool = !iconBool;
+              });
+            },
+            icon: Icon(iconBool ? iconDark : iconLight),
+          ),
+        ),
+      ],
     );
   }
 
-  // body
-  Container _body() {
+  Container _body(bool isDarkMode) {
     return Container(
-      // column
       margin: EdgeInsets.only(left: 20.0, right: 20.0),
       child: Column(
         children: [
-          _searchBar(),
-          _toDos(),
-          _addTask(),
+          _searchBar(isDarkMode),
+          _toDos(isDarkMode),
+          _addTask(isDarkMode),
         ],
       ),
     );
   }
 
-  // Search Bar
-  Container _searchBar() {
+  Container _searchBar(bool isDarkMode) {
     return Container(
       margin: EdgeInsets.only(top: 15.0),
       child: TextField(
@@ -81,10 +96,10 @@ class _HomeState extends State<Home> {
           hintText: 'Search',
           prefixIcon: Icon(
             Icons.search,
-            color: tdBlack,
+            color: isDarkMode ? Colors.white : tdBlack,
           ),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: isDarkMode ? Colors.grey[800] : Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(23.0),
             borderSide: BorderSide.none,
@@ -94,8 +109,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // todo List
-  Expanded _toDos() {
+  Expanded _toDos(bool isDarkMode) {
     return Expanded(
       child: ListView(
         children: [
@@ -103,20 +117,22 @@ class _HomeState extends State<Home> {
             margin: EdgeInsets.only(top: 50, bottom: 20),
             child: Text(
               'All ToDos',
-              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                fontSize: 30.0,
+                fontWeight: FontWeight.w500,
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
             ),
           ),
-
-          // in todo_item file
           for (ToDo todoo in _foundToDo.reversed)
-            TodoItem(todo: todoo, onDeleteItem: _deleteItem),
+            TodoItem(
+                todo: todoo, onDeleteItem: _deleteItem, isDarkMode: isDarkMode),
         ],
       ),
     );
   }
 
-  // _addTask
-  Align _addTask() {
+  Align _addTask(bool isDarkMode) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Row(
@@ -126,7 +142,7 @@ class _HomeState extends State<Home> {
               margin: EdgeInsets.only(bottom: 20.0, right: 20.0, left: 6.0),
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDarkMode ? Colors.grey[900] : Colors.white,
                 boxShadow: const [
                   BoxShadow(
                       color: Colors.grey,
@@ -137,15 +153,19 @@ class _HomeState extends State<Home> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
-                // capture the entered text
                 controller: _todoController,
                 decoration: InputDecoration(
-                    hintText: 'Add a new Todo Item', border: InputBorder.none),
+                  hintText: 'Add a new Todo Item',
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: isDarkMode ? Colors.white54 : Colors.black54,
+                  ),
+                ),
+                style:
+                    TextStyle(color: isDarkMode ? Colors.white : Colors.black),
               ),
             ),
           ),
-
-          // add tas button
           Container(
             margin: EdgeInsets.only(bottom: 20),
             child: ElevatedButton(
@@ -165,14 +185,12 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // delete item
   void _deleteItem(String id) {
     setState(() {
       todosList.removeWhere((item) => item.id == id);
     });
   }
 
-  // add todo item
   void _addToDoItem(String toDo) {
     setState(() {
       todosList.add(ToDo(
@@ -182,7 +200,6 @@ class _HomeState extends State<Home> {
     _todoController.clear();
   }
 
-  // search items
   void _runFilter(String enteredKeyword) {
     List<ToDo> results = [];
     if (enteredKeyword.isEmpty) {

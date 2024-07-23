@@ -1,16 +1,14 @@
-# todo
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+lib
+│── main.dart # Entry point of the application
+│
+├── constants
+│ └── colors.dart # Color constants used throughout the app
+│
+├── model
+│ └── todo.dart # ToDo model class
+│
+├── widgets
+│ └── todo_item.dart # Custom widget to display a single ToDo item
+│
+└── screens
+└── home.dart # Home screen of the app

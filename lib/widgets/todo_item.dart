@@ -6,7 +6,12 @@ import '../model/todo.dart';
 class TodoItem extends StatefulWidget {
   final ToDo todo;
   final Function(String) onDeleteItem;
-  const TodoItem({super.key, required this.todo, required this.onDeleteItem});
+  final bool isDarkMode;
+  const TodoItem(
+      {super.key,
+      required this.todo,
+      required this.onDeleteItem,
+      required this.isDarkMode});
 
   @override
   State<TodoItem> createState() => _TodoItemState();
@@ -21,31 +26,24 @@ class _TodoItemState extends State<TodoItem> {
         onTap: () {
           setState(() {
             widget.todo.isDone = !widget.todo.isDone;
-            // print(widget.todo.isDone);
           });
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-        tileColor: Colors.white,
-
-        // check box
+        tileColor: widget.isDarkMode ? Colors.grey[800] : Colors.white,
         leading: Icon(
             widget.todo.isDone
                 ? Icons.check_box
                 : Icons.check_box_outline_blank,
             color: tdBlue),
-
-        // todo content
         title: Text(
           widget.todo.todoText!,
           style: TextStyle(
-              color: tdBlack,
+              color: widget.isDarkMode ? Colors.white : tdBlack,
               fontSize: 16,
               decoration:
                   widget.todo.isDone ? TextDecoration.lineThrough : null),
         ),
-
-        // delete button
         trailing: Container(
           margin: EdgeInsets.symmetric(vertical: 12.0),
           padding: EdgeInsets.all(0),
