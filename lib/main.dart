@@ -3,7 +3,7 @@ import 'package:todo/screens/home.dart';
 import 'package:todo/themes/theme.dart'; // Import the theme file
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

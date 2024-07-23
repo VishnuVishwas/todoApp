@@ -143,13 +143,17 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
               decoration: BoxDecoration(
                 color: isDarkMode ? Colors.grey[900] : Colors.white,
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 0.0),
-                      blurRadius: 10.0,
-                      spreadRadius: 0.0),
-                ],
+                boxShadow: !isDarkMode
+                    ? const [
+                        BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 10.0,
+                            spreadRadius: 0.0),
+                      ]
+                    : [
+                        BoxShadow(),
+                      ],
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
