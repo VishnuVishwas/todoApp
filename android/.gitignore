@@ -11,3 +11,57 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# Flutter/Dart related
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub/
+build/
+.flutter-versions
+flutter_export_environment.sh
+
+# IDEs and editors
+.idea/
+.vscode/
+*.iml
+
+# macOS
+.DS_Store
+
+# Android related
+android/.gradle/
+android/app/build/
+android/local.properties
+android/.idea/
+android/*.iml
+android/captures/
+
+# iOS related
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/flutter_export_environment.xcconfig
+ios/Runner.xcworkspace/
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Web related
+lib/generated_plugin_registrant.dart
+
+# Sensitive files
+*.jks
+*.keystore
+
+# Logs
+*.log
+
+# Build results
+*.apk
+*.aab
+
+# Miscellaneous
+*.swp
